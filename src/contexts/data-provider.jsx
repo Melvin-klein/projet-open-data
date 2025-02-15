@@ -2,8 +2,6 @@ import {DataContext} from "@/contexts/data-context";
 import {useEffect, useState} from "react";
 import * as dfd from "danfojs";
 import Spinner from "@/components/spinner";
-import Top10DistrictsInfeste from "@/app/stat-descriptive/components/Top10DistrictsInfeste";
-import getConfig from "next/dist/build/babel/loader/get-config";
 
 export default function DataProvider({children}) {
     const [isLoading, setIsLoading] = useState(true)
