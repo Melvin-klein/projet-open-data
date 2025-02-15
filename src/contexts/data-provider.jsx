@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import * as dfd from "danfojs";
 import Spinner from "@/components/spinner";
 import Top10DistrictsInfeste from "@/app/stat-descriptive/components/Top10DistrictsInfeste";
+import getConfig from "next/dist/build/babel/loader/get-config";
 
 export default function DataProvider({children}) {
     const [isLoading, setIsLoading] = useState(true)
@@ -17,7 +18,7 @@ export default function DataProvider({children}) {
             async function fetchCSV() {
                 try {
                     console.log("Reading CSV ...")
-                    const df = await dfd.readCSV("/bedbugs_population.csv");
+                    const df = await dfd.readCSV('https://melvin-klein.github.io/projet-open-data/bedbugs_population.csv');
                     setData(df);
                     console.log(df.columns)
                     setIsLoading(false)
@@ -34,7 +35,7 @@ export default function DataProvider({children}) {
         if (geojsonData === null) {
             const fetchGeoJSON = async () => {
                 try {
-                    const response = await fetch("/nyc.json");
+                    const response = await fetch('https://melvin-klein.github.io/projet-open-data/nyc.json');
                     const data = await response.json();
                     setGeojsonData(data);
                 } catch (error) {
