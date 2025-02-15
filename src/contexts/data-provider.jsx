@@ -36,6 +36,7 @@ export default function DataProvider({children}) {
                     const response = await fetch('https://melvin-klein.github.io/projet-open-data/nyc.json');
                     const data = await response.json();
                     setGeojsonData(data);
+                    console.log("GeoJson est chargé")
                 } catch (error) {
                     console.error("Erreur lors du chargement du GeoJSON :", error);
                 }
