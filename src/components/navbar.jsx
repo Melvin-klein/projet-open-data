@@ -4,6 +4,8 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from "next/link";
 import {usePathname} from "next/navigation";
+import {useContext} from "react";
+import {DataContext} from "@/contexts/data-context";
 
 const navigation = [
     { name: 'Présentation des données', href: '/' },
@@ -17,6 +19,8 @@ function classNames(...classes) {
 
 export default function Navbar() {
     const pathname = usePathname()
+
+    const dataContext = useContext(DataContext)
 
     return (
         <Disclosure as="nav" className="bg-gray-800">
@@ -51,7 +55,7 @@ export default function Navbar() {
                         </div>
                     </div>
                     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
+                        <button className="bg-indigo-500 hover:bg-indigo-400 text-white rounded px-8 py-2" onClick={() => dataContext.setPanelOpen(true)}>Filtrer les données</button>
                     </div>
                 </div>
             </div>

@@ -1,6 +1,8 @@
+"use client"
+
 import {useContext} from "react";
 import {DataContext} from "@/contexts/data-context";
-import Plot from "react-plotly.js";
+//import Plot from "react-plotly.js";
 
 export default function Top10DistrictsInfeste() {
     const dataContext = useContext(DataContext)
@@ -10,7 +12,9 @@ export default function Top10DistrictsInfeste() {
     const xValues = grouped["CDTA2020"].values;
     const infestationValues = grouped["Infested Dwelling Unit Count_sum"].values;
 
-    return <Plot
+    return <div></div>
+
+    /*return <Plot
         data={[
             {
                 type: 'bar',
@@ -24,5 +28,5 @@ export default function Top10DistrictsInfeste() {
             height: 500,
         }}
         config={{displayModeBar: false}}
-    />
+    />*/
 }

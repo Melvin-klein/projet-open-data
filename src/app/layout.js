@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import DataProvider from "@/contexts/data-provider";
 import Footer from "@/components/footer";
+import Panel from "@/components/panel";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -22,9 +23,10 @@ export default function RootLayout({ children }) {
             <body
                 className={`${geistSans.variable} ${geistMono.variable} antialiased`}
             >
-                <Navbar />
                 <DataProvider>
+                    <Navbar />
                     {children}
+                    <Panel />
                 </DataProvider>
                 <Footer />
             </body>

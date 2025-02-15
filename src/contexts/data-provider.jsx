@@ -8,6 +8,7 @@ export default function DataProvider({children}) {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState(null)
     const [geojsonData, setGeojsonData] = useState(null);
+    const [panelOpen, setPanelOpen] = useState(true)
 
     const position = [40.7142700, -74.0059700]
 
@@ -168,6 +169,8 @@ export default function DataProvider({children}) {
         setData,
         isLoading,
         setIsLoading,
+        panelOpen,
+        setPanelOpen,
         geojsonData,
         position,
         computeInfestationRateTable,

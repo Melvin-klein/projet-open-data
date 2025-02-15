@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import InfestationRate from "@/app/stat-descriptive/components/infestation-rate";
 import InfestationRateEvolution from "@/app/stat-descriptive/components/InfestationRateEvolution";
 import InfestationBedbugs from "@/app/stat-descriptive/components/infestationBedbugs";
@@ -11,7 +10,6 @@ import MapMeanInfested from "@/app/stat-descriptive/components/MapMeanInfested";
 import TopTauxInfestation from "@/app/stat-descriptive/components/TopTauxInfestation";
 import CarteInfestationTotale from "@/app/stat-descriptive/components/CarteInfestationTotale";
 import CarteLoyerMoyenDistrict from "@/app/stat-descriptive/components/CarteLoyerMoyenDistrict";
-import Top10DistrictsInfeste from "@/app/stat-descriptive/components/Top10DistrictsInfeste";
 
 export default function Page() {
     const [activeId, setActiveId] = useState("");
@@ -116,7 +114,7 @@ export default function Page() {
                             purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
                         </p>
                         <div className="flex">
-                            <Top10DistrictsInfeste />
+                            {/*<Top10DistrictsInfeste />*/}
                         </div>
                     </section>
                     <section id={sections[8].id} className="scroll-mt-20">
