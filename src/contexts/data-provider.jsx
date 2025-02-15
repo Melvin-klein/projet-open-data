@@ -7,7 +7,7 @@ export default function DataProvider({children}) {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState(null)
     const [geojsonData, setGeojsonData] = useState(null);
-    const [panelOpen, setPanelOpen] = useState(true)
+    const [panelOpen, setPanelOpen] = useState(false)
 
     const position = [40.7142700, -74.0059700]
 
