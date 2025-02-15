@@ -1,26 +1,23 @@
 'use client'
 
-import {useEffect, useState} from "react";
+import {useContext} from "react";
 import {GeoJSON, MapContainer, TileLayer} from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
+import {DataContext} from "@/contexts/data-context";
+
+const COLORS = {
+    'Brooklyn': '#7ccf00',
+    'Queens': '#fb2c36',
+    'Staten Island': '#2b7fff',
+    'Bronx': '#8e51ff',
+    'Manhattan': '#efb100'
+}
 
 export default function MapComponent() {
-    const [geojsonData, setGeojsonData] = useState(null);
-    const position = [40.7142700, -74.0059700]
+    const dataContext = useContext(DataContext)
 
-    useEffect(() => {
-        const fetchGeoJSON = async () => {
-            try {
-                const response = await fetch("/nyc.json");
-                const data = await response.json();
-                setGeojsonData(data);
-            } catch (error) {
-                console.error("Erreur lors du chargement du GeoJSON :", error);
-            }
-        };
-
-        fetchGeoJSON();
-    }, []);
+    const position = dataContext.position
+    const geojsonData = dataContext.geojsonData
 
     return <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 overflow-hidden">
         <MapContainer center={position} zoom={10} scrollWheelZoom={false} className="w-full h-full" style={{ height: "500px", width: "100%" }} >
@@ -31,14 +28,14 @@ export default function MapComponent() {
             {geojsonData && (
                 <GeoJSON
                     data={geojsonData}
-                    style={() => ({
-                        color: "#ff7800",
+                    style={(item) => ({
+                        color: COLORS[item.properties.BoroName],
                         weight: 2,
                         opacity: 1,
-                        fillOpacity: 0.5,
+                        fillOpacity: 0.4,
                     })}
                     onEachFeature={(feature, layer) => {
-                        layer.bindPopup(`<strong>Quartier :</strong> ${feature.properties.BoroName}`);
+                        layer.bindPopup(`<strong>Quartier :</strong> ${feature.properties.BoroName} - ${feature.properties.CDTAName}`);
                     }}
                 />
             )}

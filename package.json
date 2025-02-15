@@ -11,12 +11,16 @@
   "dependencies": {
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
+    "d3": "^7.9.0",
+    "d3-scale": "^4.0.2",
     "danfojs": "^1.1.2",
     "leaflet": "^1.9.4",
     "next": "15.1.6",
+    "plotly.js": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
+    "react-plotly.js": "^2.6.0",
     "shapefile": "^0.6.6"
   },
   "devDependencies": {

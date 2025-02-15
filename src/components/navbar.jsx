@@ -2,11 +2,13 @@
 
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import Link from "next/link";
+import {usePathname} from "next/navigation";
 
 const navigation = [
-    { name: 'Présentation des données', href: '#', current: true },
-    { name: 'Exploration des données', href: '#', current: false },
-    { name: 'Inférence', href: '#', current: false },
+    { name: 'Présentation des données', href: '/' },
+    { name: 'Exploration des données', href: '/stat-descriptive' },
+    { name: 'Inférence', href: '#' },
 ]
 
 function classNames(...classes) {
@@ -14,6 +16,8 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+    const pathname = usePathname()
+
     return (
         <Disclosure as="nav" className="bg-gray-800">
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -31,17 +35,17 @@ export default function Navbar() {
                         <div className="hidden sm:block">
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
-                                    <a
+                                    <Link
                                         key={item.name}
                                         href={item.href}
                                         aria-current={item.current ? 'page' : undefined}
                                         className={classNames(
-                                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                            item.href === pathname ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                                             'rounded-md px-3 py-2 text-sm font-medium',
                                         )}
                                     >
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         </div>

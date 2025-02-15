@@ -1,25 +1,19 @@
+import {useContext} from "react";
+import {DataContext} from "@/contexts/data-context";
+
 const people = [
     { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
     // More people...
 ]
 
 export default function Datatable() {
+    const dataContext = useContext(DataContext)
+
     return (
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-24">
             <div className="sm:flex sm:items-center">
                 <div className="sm:flex-auto">
                     <h1 className="text-base font-semibold text-gray-900">Données disponibles</h1>
-                    <p className="mt-2 text-sm text-gray-700">
-                        A list of all the users in your account including their name, title, email and role.
-                    </p>
-                </div>
-                <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                    <button
-                        type="button"
-                        className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                        Add user
-                    </button>
                 </div>
             </div>
             <div className="mt-8 flow-root">
@@ -29,39 +23,21 @@ export default function Datatable() {
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
                                 <tr>
-                                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                        Name
-                                    </th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Title
-                                    </th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Email
-                                    </th>
-                                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        Role
-                                    </th>
-                                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                        <span className="sr-only">Edit</span>
-                                    </th>
+                                    {dataContext.data.columns.map(column => {
+                                        return <th key={column} scope="col" className="py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 min-w-48">
+                                            {column}
+                                        </th>
+                                    })}
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                {people.map((person) => (
-                                    <tr key={person.email}>
-                                        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                            {person.name}
-                                        </td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.title}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.email}</td>
-                                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{person.role}</td>
-                                        <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                            <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                                Edit<span className="sr-only">, {person.name}</span>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                ))}
+                                    {dataContext.data.head(10).values.map((row, indexRow) => {
+                                        return (
+                                            <tr key={indexRow}>
+                                                {row.map((item, indexCol) => <td key={`${indexRow}-${indexCol}`} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item}</td>)}
+                                            </tr>
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>
