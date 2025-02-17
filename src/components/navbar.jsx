@@ -10,7 +10,7 @@ import {DataContext} from "@/contexts/data-context";
 const navigation = [
     { name: 'Présentation des données', href: '/' },
     { name: 'Exploration des données', href: '/stat-descriptive' },
-    { name: 'Inférence', href: '#' },
+    { name: 'Inférence', href: '/inference' },
 ]
 
 function classNames(...classes) {

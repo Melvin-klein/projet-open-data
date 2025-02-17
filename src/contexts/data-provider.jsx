@@ -2,6 +2,7 @@ import {DataContext} from "@/contexts/data-context";
 import {useEffect, useState} from "react";
 import * as dfd from "danfojs";
 import Spinner from "@/components/spinner";
+import {kmeans} from "ml-kmeans";
 
 export default function DataProvider({children}) {
     const position = [40.7142700, -74.0059700]
@@ -93,7 +94,8 @@ export default function DataProvider({children}) {
             async function fetchCSV() {
                 try {
                     console.log("Reading CSV ...")
-                    const df = await dfd.readCSV('https://melvin-klein.github.io/projet-open-data/bedbugs_population.csv');
+                    let df = await dfd.readCSV('https://melvin-klein.github.io/projet-open-data/bedbugs_population.csv');
+                    df = df.fillNa(0)
                     setData(df);
                     setFilteredData(df)
                     console.log(df.columns)
@@ -291,6 +293,35 @@ export default function DataProvider({children}) {
         }
     }
 
+    const trainKMeans = (num_clusters) => {
+
+        console.log("training")
+        const values = filteredData.loc({ columns : ['taux_infestation', 'taux_eradication', 'taux_reinfestation', 'pop_pov_pct', 'pop_pov_u18_pct', 'pop_65p_pct'] }).values
+        console.log(values)
+        const model = kmeans(values, num_clusters, { initialization: 'kmeans++', maxIterations: 100 })
+        console.log("Finished")
+        console.log(model)
+
+        const district2cluster = filteredData['CDTA2020']
+        const clusters = model.clusters
+
+        return [{
+            infestation_max: num_clusters - 1,
+            infestation_min: 0,
+            ...geojsonDataFiltered,
+            features: geojsonDataFiltered.features.map((feature) => {
+                const districtCode = feature.properties.CDTA2020;
+                return {
+                    ...feature,
+                    properties: {
+                        ...feature.properties,
+                        avg_infestation: clusters[district2cluster.values.indexOf(districtCode)] || 0, // Valeur par défaut 0 si non trouvé
+                    },
+                };
+            }),
+        }, filteredData.addColumn('clusters', clusters)];
+    }
+
     return <DataContext.Provider value={{
         data,
         filteredData,
@@ -322,7 +353,8 @@ export default function DataProvider({children}) {
         topTauxInfestation,
         carteInfestationTotale,
         top10DistrictsInfeste,
-        carteLoyerMoyenDistrict
+        carteLoyerMoyenDistrict,
+        trainKMeans,
     }}>
         {isLoading ? <div className="flex items-center justify-center"><Spinner /></div> : children}
     </DataContext.Provider>
