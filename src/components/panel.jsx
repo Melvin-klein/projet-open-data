@@ -1,9 +1,11 @@
 'use client'
 
-import {useContext, useState} from 'react'
+import {useContext} from 'react'
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle, TransitionChild } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import {DataContext} from "@/contexts/data-context";
+import {ChevronDownIcon} from "@heroicons/react/16/solid";
+import Dropdown from "@/components/dropdown";
 
 export default function Panel() {
     const dataContext = useContext(DataContext)
@@ -39,7 +41,69 @@ export default function Panel() {
                                 <div className="px-4 sm:px-6">
                                     <DialogTitle className="text-base font-semibold text-gray-900">Filtrer les données</DialogTitle>
                                 </div>
-                                <div className="relative mt-6 flex-1 px-4 sm:px-6">{/* Your content */}</div>
+                                <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                                    <div className="flex">
+                                        <div className="w-1/2 pr-2">
+                                            <label htmlFor="country" className="block text-sm/6 font-medium text-gray-900">
+                                                Année de début
+                                            </label>
+                                            <div className="mt-2 grid grid-cols-1">
+                                                <select
+                                                    id="country"
+                                                    name="country"
+                                                    autoComplete="country-name"
+                                                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    defaultValue={dataContext.selectedStartDate}
+                                                    onChange={e => dataContext.setSelectedStartDate(parseInt(e.target.value))}
+                                                >
+                                                    {dataContext.years.map(year => year <= dataContext.selectedEndDate ? <option key={year} value={year}>{year}</option> : null)}
+                                                </select>
+                                                <ChevronDownIcon
+                                                    aria-hidden="true"
+                                                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="w-1/2 pl-2">
+                                            <label htmlFor="country" className="block text-sm/6 font-medium text-gray-900">
+                                                Année de fin
+                                            </label>
+                                            <div className="mt-2 grid grid-cols-1">
+                                                <select
+                                                    id="country"
+                                                    name="country"
+                                                    autoComplete="country-name"
+                                                    className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    value={dataContext.selectedEndDate}
+                                                    onChange={e => dataContext.setSelectedEndDate(parseInt(e.target.value))}
+                                                >
+                                                    {dataContext.years.map(year => year >= dataContext.selectedStartDate ? <option key={year} value={year}>{year}</option> : null)}
+                                                </select>
+                                                <ChevronDownIcon
+                                                    aria-hidden="true"
+                                                    className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full mt-6">
+                                        <label htmlFor="country" className="block text-sm/6 font-medium text-gray-900">
+                                            Quartier
+                                        </label>
+                                        <div className="mt-2 grid grid-cols-1">
+                                            <Dropdown values={dataContext.borough} selected={dataContext.selectedBorough} onSelect={item => dataContext.toggleSelectedBorough(item)} />
+                                        </div>
+                                    </div>
+                                    <div className="w-full mt-6">
+                                        <label htmlFor="country" className="block text-sm/6 font-medium text-gray-900">
+                                            District
+                                        </label>
+                                        <div className="mt-2 grid grid-cols-1">
+                                            <Dropdown values={dataContext.districts} selected={dataContext.selectedDistricts} onSelect={item => dataContext.toggleSelectedDistrict(item)} />
+                                        </div>
+                                    </div>
+                                    <button className="border border-gray-300 rounded mt-6 w-full py-2 hover:bg-gray-100">Réinitialiser les filtres</button>
+                                </div>
                             </div>
                         </DialogPanel>
                     </div>

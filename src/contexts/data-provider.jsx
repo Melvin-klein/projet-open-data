@@ -4,12 +4,89 @@ import * as dfd from "danfojs";
 import Spinner from "@/components/spinner";
 
 export default function DataProvider({children}) {
+    const position = [40.7142700, -74.0059700]
+    const years = [2018, 2019, 2020, 2021, 2022, 2023, 2024]
+    const districts = [
+        "BK01",
+        "BK02",
+        "BK03",
+        "BK04",
+        "BK05",
+        "BK06",
+        "BK07",
+        "BK08",
+        "BK09",
+        "BK10",
+        "BK11",
+        "BK12",
+        "BK13",
+        "BK14",
+        "BK15",
+        "BK16",
+        "BK17",
+        "BK18",
+        "BX01",
+        "BX02",
+        "BX03",
+        "BX04",
+        "BX05",
+        "BX06",
+        "BX07",
+        "BX08",
+        "BX09",
+        "BX10",
+        "BX11",
+        "BX12",
+        "BX26",
+        "MN01",
+        "MN02",
+        "MN03",
+        "MN04",
+        "MN05",
+        "MN06",
+        "MN07",
+        "MN08",
+        "MN09",
+        "MN10",
+        "MN11",
+        "MN12",
+        "QN01",
+        "QN02",
+        "QN03",
+        "QN04",
+        "QN05",
+        "QN06",
+        "QN07",
+        "QN08",
+        "QN09",
+        "QN10",
+        "QN11",
+        "QN12",
+        "QN13",
+        "QN14",
+        "QN81",
+        "SI01",
+        "SI02",
+        "SI03"
+    ]
+    const borough = [
+        "MANHATTAN",
+        "BROOKLYN",
+        "BRONX",
+        "STATEN ISLAND",
+        "QUEENS"
+    ]
+
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState(null)
-    const [geojsonData, setGeojsonData] = useState(null);
+    const [filteredData, setFilteredData] = useState(null)
+    const [geojsonData, setGeojsonData] = useState(null)
+    const [geojsonDataFiltered, setGeojsonDataFiltered] = useState(null)
     const [panelOpen, setPanelOpen] = useState(false)
-
-    const position = [40.7142700, -74.0059700]
+    const [selectedStartDate, setSelectedStartDate] = useState(years[0])
+    const [selectedEndDate, setSelectedEndDate] = useState(years[years.length - 1])
+    const [selectedDistricts, setSelectedDistricts] = useState([])
+    const [selectedBorough, setSelectedBorough] = useState([])
 
     useEffect(() => {
         if (data === null) {
@@ -18,7 +95,10 @@ export default function DataProvider({children}) {
                     console.log("Reading CSV ...")
                     const df = await dfd.readCSV('https://melvin-klein.github.io/projet-open-data/bedbugs_population.csv');
                     setData(df);
+                    setFilteredData(df)
                     console.log(df.columns)
+                    console.log(df.dtypes)
+                    console.log(df['CDTA2020'].unique().values)
                     setIsLoading(false)
                 } catch (error) {
                     console.error("Erreur de chargement du CSV:", error);
@@ -36,6 +116,7 @@ export default function DataProvider({children}) {
                     const response = await fetch('https://melvin-klein.github.io/projet-open-data/nyc.json');
                     const data = await response.json();
                     setGeojsonData(data);
+                    setGeojsonDataFiltered(data)
                     console.log("GeoJson est chargé")
                 } catch (error) {
                     console.error("Erreur lors du chargement du GeoJSON :", error);
@@ -46,21 +127,51 @@ export default function DataProvider({children}) {
         }
     }, []);
 
+    useEffect(() => {
+        if (data !== null) {
+            let filtered_df = data.query(data["annee_fin_observation"].ge(selectedStartDate).and(data["annee_fin_observation"].le(selectedEndDate)));
+
+            if (selectedDistricts.length > 0 || selectedBorough.length > 0) {
+                const filteredByBorough = filtered_df["Borough"].map((borough) => selectedBorough.includes(borough)).values
+                const filteredByDistrict = filtered_df["CDTA2020"].map((district) => selectedDistricts.includes(district)).values
+                filtered_df = filtered_df.loc({
+                    rows : filteredByBorough.map((value, index) => value || filteredByDistrict[index])
+                })
+            }
+
+            setFilteredData(filtered_df)
+        }
+
+        if (geojsonData !== null) {
+            if (selectedDistricts.length > 0 || selectedBorough.length > 0) {
+                setGeojsonDataFiltered({
+                        ...geojsonData,
+                        features: geojsonData.features.filter(feature => (
+                            selectedDistricts.includes(feature.properties.CDTA2020) || selectedBorough.includes(feature.properties.BoroName.toUpperCase())
+                        )),
+                    }
+                )
+            } else {
+                setGeojsonDataFiltered(geojsonData)
+            }
+        }
+    }, [selectedStartDate, selectedEndDate, selectedDistricts, selectedBorough])
+
     const computeInfestationRateTable = () => {
-        return data.loc({columns: ["taux_infestation", "taux_eradication", "taux_reinfestation"]}).describe();
+        return filteredData.loc({columns: ["taux_infestation", "taux_eradication", "taux_reinfestation"]}).describe();
     }
 
     const getInfestationRateEvolution = () => {
-        return data.groupby(["annee_fin_observation"])
+        return filteredData.groupby(["annee_fin_observation"])
             .agg({ "taux_infestation": "mean", "taux_eradication": "mean", "taux_reinfestation": "mean" })
     }
 
     const getInfestationBedbug = () => {
-        return data.groupby(["annee_fin_observation"]).col(["Infested Dwelling Unit Count"]).agg({ "Infested Dwelling Unit Count": "sum" })
+        return filteredData.groupby(["annee_fin_observation"]).col(["Infested Dwelling Unit Count"]).agg({ "Infested Dwelling Unit Count": "sum" })
     }
 
     const getInfestedUnitsByBorough = () => {
-        let grouped = data.groupby(["Borough"])
+        let grouped = filteredData.groupby(["Borough"])
             .col(["Infested Dwelling Unit Count"])
             .agg({ "Infested Dwelling Unit Count": "sum" });
 
@@ -68,7 +179,7 @@ export default function DataProvider({children}) {
     }
 
     const getMeanInfestationGeoData = () => {
-        const grouped = data.groupby(["CDTA2020"]).agg({ "taux_infestation": "mean" });
+        const grouped = filteredData.groupby(["CDTA2020"]).agg({ "taux_infestation": "mean" });
 
         // Convertir en un objet pour un mapping rapide
         const infestationMap = {};
@@ -80,8 +191,8 @@ export default function DataProvider({children}) {
         return {
             infestation_max: Math.max(...grouped["taux_infestation_mean"].values),
             infestation_min: Math.min(...grouped["taux_infestation_mean"].values),
-            ...geojsonData,
-            features: geojsonData.features.map((feature) => {
+            ...geojsonDataFiltered,
+            features: geojsonDataFiltered.features.map((feature) => {
                 const districtCode = feature.properties.CDTA2020;
                 return {
                     ...feature,
@@ -95,7 +206,7 @@ export default function DataProvider({children}) {
     };
 
     const topTauxInfestation = () => {
-        let grouped = data.groupby(["CDTA2020"])
+        let grouped = filteredData.groupby(["CDTA2020"])
             .col(["taux_infestation"])
             .agg({ "taux_infestation": "mean" });
 
@@ -103,7 +214,7 @@ export default function DataProvider({children}) {
     }
 
     const carteInfestationTotale = () => {
-        const grouped = data.groupby(["CDTA2020"]).agg({ "Infested Dwelling Unit Count": "sum" });
+        const grouped = filteredData.groupby(["CDTA2020"]).agg({ "Infested Dwelling Unit Count": "sum" });
 
         // Convertir en un objet pour un mapping rapide
         const infestationMap = {};
@@ -115,8 +226,8 @@ export default function DataProvider({children}) {
         return {
             infestation_max: Math.max(...grouped["Infested Dwelling Unit Count_sum"].values),
             infestation_min: Math.min(...grouped["Infested Dwelling Unit Count_sum"].values),
-            ...geojsonData,
-            features: geojsonData.features.map((feature) => {
+            ...geojsonDataFiltered,
+            features: geojsonDataFiltered.features.map((feature) => {
                 const districtCode = feature.properties.CDTA2020;
                 return {
                     ...feature,
@@ -138,7 +249,7 @@ export default function DataProvider({children}) {
     }
 
     const carteLoyerMoyenDistrict = () => {
-        const grouped = data.groupby(["CDTA2020"]).agg({ "rent_gross_med_adj": "mean" });
+        const grouped = filteredData.groupby(["CDTA2020"]).agg({ "rent_gross_med_adj": "mean" });
 
         // Convertir en un objet pour un mapping rapide
         const infestationMap = {};
@@ -150,8 +261,8 @@ export default function DataProvider({children}) {
         return {
             infestation_max: Math.max(...grouped["rent_gross_med_adj_mean"].values),
             infestation_min: Math.min(...grouped["rent_gross_med_adj_mean"].values),
-            ...geojsonData,
-            features: geojsonData.features.map((feature) => {
+            ...geojsonDataFiltered,
+            features: geojsonDataFiltered.features.map((feature) => {
                 const districtCode = feature.properties.CDTA2020;
                 return {
                     ...feature,
@@ -164,15 +275,45 @@ export default function DataProvider({children}) {
         };
     };
 
+    const toggleSelectedDistrict = district => {
+        if (selectedDistricts.includes(district)) {
+            setSelectedDistricts(selectedDistricts.filter(item => item !== district))
+        } else {
+            setSelectedDistricts([district, ...selectedDistricts])
+        }
+    }
+
+    const toggleSelectedBorough = borough => {
+        if (selectedBorough.includes(borough)) {
+            setSelectedBorough(selectedBorough.filter(item => item !== borough))
+        } else {
+            setSelectedBorough([borough, ...selectedBorough])
+        }
+    }
+
     return <DataContext.Provider value={{
         data,
-        setData,
+        filteredData,
         isLoading,
         setIsLoading,
         panelOpen,
         setPanelOpen,
+        selectedStartDate,
+        setSelectedStartDate,
+        selectedEndDate,
+        setSelectedEndDate,
+        selectedDistricts,
+        setSelectedDistricts,
+        toggleSelectedDistrict,
+        selectedBorough,
+        setSelectedBorough,
+        toggleSelectedBorough,
         geojsonData,
+        geojsonDataFiltered,
         position,
+        years,
+        districts,
+        borough,
         computeInfestationRateTable,
         getInfestationRateEvolution,
         getInfestationBedbug,

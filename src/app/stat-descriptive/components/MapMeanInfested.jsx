@@ -23,6 +23,7 @@ export default function MapMeanInfested() {
             />
             {geojsonData && (
                 <GeoJSON
+                    key={geojsonData.features.length}
                     data={geojsonData}
                     style={(item) => ({
                         fillColor: getColor(item.properties.avg_infestation),

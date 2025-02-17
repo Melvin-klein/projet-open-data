@@ -17,7 +17,7 @@ export default function MapComponent() {
     const dataContext = useContext(DataContext)
 
     const position = dataContext.position
-    const geojsonData = dataContext.geojsonData
+    const geojsonData = dataContext.geojsonDataFiltered
 
     return <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 overflow-hidden">
         <MapContainer center={position} zoom={10} scrollWheelZoom={false} className="w-full h-full" style={{ height: "500px", width: "100%" }} >
@@ -27,6 +27,7 @@ export default function MapComponent() {
             />
             {geojsonData && (
                 <GeoJSON
+                    key={geojsonData.features.length}
                     data={geojsonData}
                     style={(item) => ({
                         color: COLORS[item.properties.BoroName],

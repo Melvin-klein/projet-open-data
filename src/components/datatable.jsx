@@ -1,11 +1,6 @@
 import {useContext} from "react";
 import {DataContext} from "@/contexts/data-context";
 
-const people = [
-    { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
-    // More people...
-]
-
 export default function Datatable() {
     const dataContext = useContext(DataContext)
 
@@ -23,7 +18,7 @@ export default function Datatable() {
                             <table className="min-w-full divide-y divide-gray-300">
                                 <thead className="bg-gray-50">
                                 <tr>
-                                    {dataContext.data.columns.map(column => {
+                                    {dataContext.filteredData.columns.map(column => {
                                         return <th key={column} scope="col" className="py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 min-w-48">
                                             {column}
                                         </th>
@@ -31,7 +26,7 @@ export default function Datatable() {
                                 </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-200 bg-white">
-                                    {dataContext.data.head(10).values.map((row, indexRow) => {
+                                    {dataContext.filteredData.head(10).values.map((row, indexRow) => {
                                         return (
                                             <tr key={indexRow}>
                                                 {row.map((item, indexCol) => <td key={`${indexRow}-${indexCol}`} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item}</td>)}
