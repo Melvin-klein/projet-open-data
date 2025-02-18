@@ -19,7 +19,7 @@ export default function Page() {
         { id: "bedbug-data-rate-evolution", title: "Évolution des taux d'infestation" },
         { id: "bedbug-data-evolution", title: "Évolution du nombre d'infestation" },
         { id: "bedbug-data-unit-infested-by-borough", title: "Nombre d'unités infestées par quartiers" },
-        { id: "bedbug-data-map-mean-infestations", title: "Carte des infestations moyennes par district" },
+        { id: "bedbug-data-map-mean-infestations", title: "Carte des taux infestations moyens par district" },
         { id: "bedbug-data-top-infestation-rate", title: "Top taux infestation" },
         { id: "bedbug-data-map-total-infestation", title: "Carte des infestations totales par districts" },
         { id: "bedbug-data-top-10-infested-district", title: "Top 10 des districts les plus infestés" },
@@ -33,19 +33,12 @@ export default function Page() {
                 <main className="w-3/4 pr-6 space-y-12">
                     <section id={sections[0].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[0].title}</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
-                        </p>
                         <InfestationRate />
                     </section>
                     <section id={sections[1].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[1].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            On constate que les taux ne font que diminuer depuis 2018, sauf un pic en 2020 (peut-être dû au Covid : moins d’intervention d’éradication).
                         </p>
                         <div className="flex">
                             <InfestationRateEvolution />
@@ -54,9 +47,7 @@ export default function Page() {
                     <section id={sections[2].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[2].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Ci-dessous le nombre de logements infestés par année. On remarque qu’il y a aussi un pic en 2020.
                         </p>
                         <div className="flex">
                             <InfestationBedbugs />
@@ -65,9 +56,7 @@ export default function Page() {
                     <section id={sections[3].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[3].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Staten Island a subi bien moins d'infestations que les 4 autres quartiers, mais attention il y a moins d'habitations. A contrario Manhattan a un total d’infestations élevé mais c’est le quartier avec le plus d’unités.
                         </p>
                         <div className="flex">
                             <UnitInfestedByBorough />
@@ -76,9 +65,8 @@ export default function Page() {
                     <section id={sections[4].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[4].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Taux infestation : Nombre d’unités infestés/Nombre d’unités totale
+                            Les taux d'infestation dans le Queens sont très élevés mais il y a peu d'infestations et peu d'unités. Par contre à Brooklyn les taux d'infestation sont élevés mais aussi les unités totales.
                         </p>
                         <div className="flex">
                             <MapMeanInfested />
@@ -87,9 +75,7 @@ export default function Page() {
                     <section id={sections[5].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[5].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Ci-dessous le top 10 des districts avec les taux d’infestation les plus importants. 7 d’entre eux sont dans le Queens et Brooklyn.
                         </p>
                         <div className="flex">
                             <TopTauxInfestation />
@@ -97,11 +83,6 @@ export default function Page() {
                     </section>
                     <section id={sections[6].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[6].title}</h2>
-                        <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
-                        </p>
                         <div className="flex">
                             <CarteInfestationTotale />
                         </div>
@@ -109,9 +90,7 @@ export default function Page() {
                     <section id={sections[7].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[7].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Manhattan a 5 districts dans ce top,comme dit précédemment c’est le quartier avec le plus d'habitations.
                         </p>
                         <div className="flex">
                             {/*<Top10DistrictsInfeste />*/}
@@ -120,9 +99,7 @@ export default function Page() {
                     <section id={sections[8].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[8].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Les districts avec des loyers élevés présentent un faible taux d'infestation, tandis que ceux avec des loyers bas ont un taux plus élevé. Pour les loyers moyens, la tendance est plus variable.
                         </p>
                         <div className="flex">
                             <CarteLoyerMoyenDistrict />

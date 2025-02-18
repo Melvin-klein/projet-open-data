@@ -102,7 +102,6 @@ export default function Panel() {
                                             <Dropdown values={dataContext.districts} selected={dataContext.selectedDistricts} onSelect={item => dataContext.toggleSelectedDistrict(item)} />
                                         </div>
                                     </div>
-                                    <button className="border border-gray-300 rounded mt-6 w-full py-2 hover:bg-gray-100">Réinitialiser les filtres</button>
                                 </div>
                             </div>
                         </DialogPanel>

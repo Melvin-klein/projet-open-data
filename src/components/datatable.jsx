@@ -5,10 +5,10 @@ export default function Datatable() {
     const dataContext = useContext(DataContext)
 
     return (
-        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-24">
+        <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-12">
             <div className="sm:flex sm:items-center">
                 <div className="sm:flex-auto">
-                    <h1 className="text-base font-semibold text-gray-900">Données disponibles</h1>
+                    <h1 className="text-base font-semibold text-gray-900">Jeux de données fusionnés (10 premières lignes)</h1>
                 </div>
             </div>
             <div className="mt-8 flow-root">

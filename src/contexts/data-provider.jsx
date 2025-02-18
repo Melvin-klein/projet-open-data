@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import * as dfd from "danfojs";
 import Spinner from "@/components/spinner";
 import {kmeans} from "ml-kmeans";
+import * as tf from '@tensorflow/tfjs';
 
 export default function DataProvider({children}) {
     const position = [40.7142700, -74.0059700]

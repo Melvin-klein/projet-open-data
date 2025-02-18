@@ -11,6 +11,7 @@ import TopTauxInfestation from "@/app/stat-descriptive/components/TopTauxInfesta
 import CarteInfestationTotale from "@/app/stat-descriptive/components/CarteInfestationTotale";
 import CarteLoyerMoyenDistrict from "@/app/stat-descriptive/components/CarteLoyerMoyenDistrict";
 import Classification from "@/app/inference/components/Classification";
+import Prediction from "@/app/inference/components/Prediction";
 
 export default function Inference() {
     const [activeId, setActiveId] = useState("");
@@ -28,21 +29,18 @@ export default function Inference() {
                     <section id={sections[0].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[0].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Avec les K-means, on a fait des groupe de quartiers qui se ressemblent en prenant en compte les taux d’infestation, ré-infestation et éradication; mais aussi les pourcentage de population en dessous du seuil de pauvreté, des moins de 18 ans en dessous du seuil de pauvreté et des plus de 65 ans.
+                            Ci-dessous la carte de ces groupes et leurs caractéristiques moyennes.
                         </p>
                         <Classification />
                     </section>
                     <section id={sections[1].id} className="scroll-mt-20">
                         <h2 className="text-2xl font-bold mb-4">{sections[1].title}</h2>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-                            efficitur, quam a ullamcorper facilisis, sapien felis fermentum
-                            purus, a dapibus justo justo ut lorem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium commodi corporis cupiditate error eum facilis illum ipsa, iure laborum magnam minus modi, nesciunt officiis rem sint sunt totam unde voluptatum. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto asperiores assumenda culpa deleniti, ea eum ex fugiat, nemo, officiis perferendis placeat quibusdam quis rem repellendus sapiente sequi voluptas voluptatum!
+                            Avec un modèle de régression linéaire, nous avons prédit les taux d'infestation pour 2024 (avec les données 2023, car on ne connaît les données de 2024 qu’en 2025). Et on constate qu’elles sont sur-estimées ce qui est normal, cependant elles sont dans l’intervalle de confiance à 95 %. L’erreur quadratique moyenne vaut ~10^-5 et nos valeurs sont de l’ordre de 10^-3.
                         </p>
                         <div className="flex">
-                            <InfestationRateEvolution />
+                            <Prediction />
                         </div>
                     </section>
                 </main>
