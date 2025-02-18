@@ -23,7 +23,7 @@ export default function Page() {
         { id: "bedbug-data-top-infestation-rate", title: "Top taux infestation" },
         { id: "bedbug-data-map-total-infestation", title: "Carte des infestations totales par districts" },
         { id: "bedbug-data-top-10-infested-district", title: "Top 10 des districts les plus infestés" },
-        { id: "bedbug-data-map-loyer-moyen-district", title: "Carte des loyens moyen par district" },
+        { id: "bedbug-data-map-loyer-moyen-district", title: "Carte des loyers moyens par district" },
     ];
 
     return (
