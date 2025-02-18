@@ -10,7 +10,7 @@ export default function Prediction() {
     const infestationValues = grouped["taux_infestation_mean"].values;
 
     return <div>
-        <img src="/outputLinearModel.png"  alt="" className="block mt-4" />
-        <img src="/ouputCoefLinearModel.png"  alt="" className="block mt-4" />
+        <img src="https://melvin-klein.github.io/projet-open-data/outputLinearModel.png"  alt="" className="block mt-4" />
+        <img src="https://melvin-klein.github.io/projet-open-data/ouputCoefLinearModel.png"  alt="" className="block mt-4" />
     </div>
 }
