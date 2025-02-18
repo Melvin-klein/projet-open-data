@@ -161,7 +161,7 @@ export default function DataProvider({children}) {
     }, [selectedStartDate, selectedEndDate, selectedDistricts, selectedBorough])
 
     const computeInfestationRateTable = () => {
-        return filteredData.loc({columns: ["taux_infestation", "taux_eradication", "taux_reinfestation"]}).describe();
+        return filteredData.drop({columns: ["CDTA2020", "annee_fin_observation", "Borough"]}).describe();
     }
 
     const getInfestationRateEvolution = () => {

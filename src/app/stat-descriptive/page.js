@@ -10,6 +10,7 @@ import MapMeanInfested from "@/app/stat-descriptive/components/MapMeanInfested";
 import TopTauxInfestation from "@/app/stat-descriptive/components/TopTauxInfestation";
 import CarteInfestationTotale from "@/app/stat-descriptive/components/CarteInfestationTotale";
 import CarteLoyerMoyenDistrict from "@/app/stat-descriptive/components/CarteLoyerMoyenDistrict";
+import Top10DistrictsInfeste from "@/app/stat-descriptive/components/Top10DistrictsInfeste";
 
 export default function Page() {
     const [activeId, setActiveId] = useState("");
@@ -93,7 +94,7 @@ export default function Page() {
                             Manhattan a 5 districts dans ce top,comme dit précédemment c’est le quartier avec le plus d'habitations.
                         </p>
                         <div className="flex">
-                            {/*<Top10DistrictsInfeste />*/}
+                            <Top10DistrictsInfeste />
                         </div>
                     </section>
                     <section id={sections[8].id} className="scroll-mt-20">
